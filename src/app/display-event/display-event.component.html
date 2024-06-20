@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="card text-center">
+      <div class="card-header position-relative">
+        <button class="btn btn-link position-absolute top-0 start-0 m-2" (click)="goBack()">Back</button>
+        <span>{{displayEvent.id}}</span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{displayEvent.Title}}</h5>
+        <p class="card-text">{{displayEvent.Description}}</p>
+      </div>
+      <div class="card-footer text-muted">
+        {{displayEvent.Location}} {{displayEvent.Date | date}}
+      </div>
+    </div>
+  </div>
+  

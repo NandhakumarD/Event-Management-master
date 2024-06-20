@@ -1,0 +1,91 @@
+<div class="container">
+    <h1>Event List</h1>
+    <div class="display">
+        <button class="btn btn-primary" (click)="addEvent()">Add Event</button>
+        <input matInput (keyup)="filter($event)" placeholder="Filter events" style="width : 25% !important" class="form-control">
+    </div>
+    <table mat-table [dataSource]="dataSource" class="table table-bordered m-2">
+  
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let event">
+          <button class="btn btn-link" (click)="editRow(event)">Edit</button>
+          <button class="btn btn-link link-danger" (click)="deleteRow(event)">Delete</button>
+        </td>
+      </ng-container>
+  
+      <!-- Title Column -->
+      <ng-container matColumnDef="Title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let event"><button class="btn btn-link" (click)="goto(event)">{{ event.Title }}</button></td>
+      </ng-container>
+  
+      <!-- Date Column -->
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let event">{{ event.Date }}</td>
+      </ng-container>
+  
+      <!-- Location Column -->
+      <ng-container matColumnDef="Location">
+        <th mat-header-cell *matHeaderCellDef> Location </th>
+        <td mat-cell *matCellDef="let event">{{ event.Location }}</td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  
+  <div class="modal" tabindex="-1" role="dialog" id="modalId">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Event</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="eventForm">
+            <div class="form-group">
+              <label>Event Title</label>
+              <input type="text" formControlName="Title" class="form-control" [ngClass]="{'is-invalid': eventForm.get('Title').invalid && eventForm.get('Title').touched}">
+              <div *ngIf="eventForm.get('Title').invalid && eventForm.get('Title').touched" class="invalid-feedback">
+                Title is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Event Date</label>
+              <input type="date" class="form-control" formControlName="Date" [ngClass]="{'is-invalid': eventForm.get('Date').invalid && eventForm.get('Date').touched}">
+              <div *ngIf="eventForm.get('Date').invalid && eventForm.get('Date').touched" class="invalid-feedback">
+                Date is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Event Location</label>
+              <input type="text" class="form-control" formControlName="Location" [ngClass]="{'is-invalid': eventForm.get('Location').invalid && eventForm.get('Location').touched}">
+              <div *ngIf="eventForm.get('Location').invalid && eventForm.get('Location').touched" class="invalid-feedback">
+                Location is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea formControlName="Description" class="form-control" [ngClass]="{'is-invalid': eventForm.get('Description').invalid && eventForm.get('Description').touched}"></textarea>
+              <div *ngIf="eventForm.get('Description').invalid && eventForm.get('Description').touched" class="invalid-feedback">
+                Description is required.
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="submitForm()">Save changes</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
